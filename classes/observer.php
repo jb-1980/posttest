@@ -18,7 +18,7 @@
  * Event observers used in pretest.
  *
  * @package    local_pretest
- * @copyright  2014 Joseph Gilgen
+ * @copyright  2015 Joseph Gilgen
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

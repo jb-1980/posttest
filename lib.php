@@ -56,7 +56,11 @@ function pretest_get_questions_grades($userid,$quizid,$attempt){
 }
 
 /**
- * 
+ * This function is used to fetch the pretest records from a database for a course
+ * and parse them
+ *
+ * @param int $courseid the id of the course for which data is retrieved
+ * @return array
  */
 function pretest_get_items($courseid){
     global $DB;
