@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/pretest/db" VERSION="20150403" COMMENT="XMLDB file for Moodle local/pretest"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_pretest" COMMENT="Award course credit for pretest performance">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="id of course from course table"/>
+        <FIELD NAME="quizid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="id of quiz from quiz table"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="id of associated question"/>
+        <FIELD NAME="gradeitemid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="grade_item for the module"/>
+        <FIELD NAME="weight" TYPE="number" LENGTH="15" NOTNULL="true" DEFAULT="0" SEQUENCE="false" DECIMALS="2" COMMENT="Question weight for module grade"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="uniquecourse" TYPE="unique" FIELDS="gradeitemid,questionid" COMMENT="ensure that there is only one question per gradeitem"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="quiz" UNIQUE="false" FIELDS="quizid"/>
+        <INDEX NAME="gradeitem" UNIQUE="false" FIELDS="gradeitemid"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="local_pretest_coursemap" COMMENT="Map of which quizzes are considered pretests in each course">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="quizid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="id of quiz"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="id of course"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="uniquecourse" TYPE="unique" FIELDS="courseid" COMMENT="ensure that there is only one pretest per course"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
