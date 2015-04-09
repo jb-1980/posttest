@@ -45,25 +45,27 @@ $PAGE->set_pagelayout('admin');
 $coursecontext = context_course::instance($course->id);
 require_capability('local/pretest:modify', $coursecontext);
 $returnurl = new moodle_url('/course/view.php', array('id' => $id));
-$quiz = $DB->get_record('local_pretest_coursemap',array('courseid'=>$id));
+$quiz = $DB->get_record('local_pretest_coursemap',array('courseid'=>$id,'userid'=>$USER->id));
 if(!$quiz || $update){
     // Creating form instance, passed course id as parameter to action url.
-    $baseurl = new moodle_url('/local/pretest/index.php', array('id' => $id));
-    $mform = new local_pretest_set_form($baseurl);
+    $baseurl = new moodle_url('/local/pretest/index.php', array('id' => $id,'update'=>1));
+    $rurl = new moodle_url('/local/pretest/index.php', array('id' => $id));
+    $mform = new local_pretest_set_form($baseurl);    
     if ($mform->is_cancelled()) {
         // Redirect to course view page if form is cancelled.
-        redirect($returnurl);
+        redirect($rurl);
     } else if ($data = $mform->get_data()) {
-        if(!$record = $DB->get_record('local_pretest_coursemap',array('courseid'=>$id))){
+        if(!$record = $DB->get_record('local_pretest_coursemap',array('courseid'=>$id,'userid'=>$USER->id))){
               $dataobject = new stdClass;
               $dataobject->quizid = $data->quizzes;
               $dataobject->courseid = $id;
+              $dataobject->userid = $USER->id;
               $DB->insert_record('local_pretest_coursemap',$dataobject);
             } else{
                 $record->quizid = $data->quizzes;
                 $DB->update_record('local_pretest_coursemap', $record);
             }
-        redirect($baseurl);
+        redirect($rurl);
     } else {
         $PAGE->set_title($course->shortname .': '. get_string('pretestsettings', 'local_pretest'));
         $PAGE->set_heading($course->fullname);
