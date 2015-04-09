@@ -91,8 +91,8 @@ function pretest_update_grade($gradeitems,$question_grades,$courseid,$userid){
             $N += $weight;
         }
         $gradeitem = new grade_item(array('courseid'=>$courseid,'id'=>$id));
-        $finalgrade = $gradeitem->grademax * $sum / $N;
-        if($finalgrade){
+        if($sum/$N >= 0.6){
+            $finalgrade = $gradeitem->grademax * $sum / $N;
             $gradeitem->update_raw_grade($userid, $finalgrade,$source=null,$feedback=get_string('feedback','local_pretest'));
         }
 
