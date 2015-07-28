@@ -9,7 +9,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param stdClass $course The course to object for the report
  * @param stdClass $context The context of the course
  */
-function local_pretest_extends_settings_navigation(settings_navigation $navigation, context $context){
+function local_pretest_extend_settings_navigation(settings_navigation $navigation, context $context){
     global $CFG,$PAGE;
     if($PAGE->course->id > 1){
         if(has_capability('local/pretest:modify', $PAGE->context)){
